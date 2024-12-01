@@ -16,6 +16,9 @@ import { Input } from "../ui/input";
 import { useTranslations } from "next-intl";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 export const SignUpCardContent = () => {
   const t = useTranslations("AUTH");
@@ -28,8 +31,36 @@ export const SignUpCardContent = () => {
     },
   });
 
+  const [isLoading, setIsLoading] = useState(false)
+  const {toast} = useToast();
+  const router = useRouter();
+
   const onSubmit = async (data: SignUpSchema) => {
-    console.log(data);
+    setIsLoading(true);
+
+    try {
+        const res = await fetch('/api/auth/regster',{
+            method: "POST",
+            body:JSON.stringify(data),
+           headers: {
+            "Content-Type": "application/json"
+           }
+        })
+
+        if(!res.ok){
+            throw new Error("Something went wrong");
+        }
+
+        const signUpInfo = await res.json();
+
+        if(res.status === 200){
+            toast({
+                title:
+            })
+        }
+    } catch (error) {
+        
+    }
   };
 
   return (

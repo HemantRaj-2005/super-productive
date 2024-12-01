@@ -41,5 +41,11 @@
         "GITHUB": "Sign up with Github"
       }
     }
+  },
+  "MESSAGES": {
+    "SUCCESS": {
+      "SIGN_UP": "Account was created!",
+      "SIGN_IN": "You have been logged in"
+    }
   }
 }
