@@ -1,6 +1,6 @@
-work done till part1 time = 3:00:36
+work done till part1 time = 3:13:53
 commands to write when restarted:
 npm run dev
 docker compose up
-jab bhi kuch prisma mein change ho - npx prisma migrate dev
 npx prisma studio
+jab bhi kuch prisma mein change ho - npx prisma migrate dev

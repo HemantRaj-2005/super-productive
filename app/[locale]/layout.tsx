@@ -27,7 +27,7 @@ Readonly<{
   if (!isValidLocale) notFound();
 
   const messages = await getMessages({ locale });
-
+ 
   return (
     <html lang={locale}>
       <body className={` antialiased`}>

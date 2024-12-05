@@ -1,9 +1,9 @@
 {
-    "Index": {
-      "title": "Hello world!"
-    },
+  "Index": {
+    "title": "Hello world!"
+  },
 
-    "AUTH": {
+  "AUTH": {
     "EMAIL": "Email",
     "PASSWORD": "Password",
     "USERNAME": "Username",
@@ -43,9 +43,21 @@
     }
   },
   "MESSAGES": {
+    "ERRORS": {
+      "DEFAULT": "Oh no... Something went wrong",
+      "TAKEN_USERNAME": "This username is already taken",
+      "TAKEN_EMAIL": "This email is already in use",
+      "DB_ERROR": "We are currently having problem. Please try again later",
+      "WRONG_DATA": "The data you provided is incorrect. Please provide the correct data",
+      "NO_USER": "User not found. Enter the correct email",
+      "WRONG_PASSWORD": "The entered password is incorrect. Please provide the correct one"
+    },
     "SUCCESS": {
       "SIGN_UP": "Account was created!",
-      "SIGN_IN": "You have been logged in"
+      "SIGN_IN": "You have been logged in!"
+    },
+    "PENDING": {
+      "LOADING": "Please wait"
     }
   }
 }

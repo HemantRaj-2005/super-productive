@@ -19,9 +19,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { LoadingState } from "../ui/loadingState";
 
 export const SignUpCardContent = () => {
   const t = useTranslations("AUTH");
+  const m = useTranslations("MESSAGES");
+
   const form = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -31,43 +35,59 @@ export const SignUpCardContent = () => {
     },
   });
 
-  const [isLoading, setIsLoading] = useState(false)
-  const {toast} = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
   const router = useRouter();
 
   const onSubmit = async (data: SignUpSchema) => {
     setIsLoading(true);
 
     try {
-        const res = await fetch('/api/auth/regster',{
-            method: "POST",
-            body:JSON.stringify(data),
-           headers: {
-            "Content-Type": "application/json"
-           }
-        })
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        if(!res.ok){
-            throw new Error("Something went wrong");
-        }
+      if (!res.ok) {
+        throw new Error("Something went wrong");
+      }
 
-        const signUpInfo = await res.json();
+      const signUpInfo = await res.json();
 
-        if(res.status === 200){
-            toast({
-                title:
-            })
-        }
-    } catch (error) {
-        
+      if (res.status === 200) {
+        toast({
+          title: m("SUCCESS.SIGN_UP"),
+        });
+        await signIn("credentials", {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+        });
+        router.push("/");
+      } else throw new Error(signUpInfo);
+    } catch (err) {
+      let errMsg = m("ERRORS.DEFAULT");
+      if (typeof err === "string") {
+        errMsg = err;
+      } else if (err instanceof Error) {
+        errMsg = m(err.message);
+      }
+      toast({
+        title: errMsg,
+        variant: "destructive",
+      });
     }
+    setIsLoading(false);
   };
 
   return (
     <CardContent>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
-          <ProviderSignInBtns />
+          <ProviderSignInBtns disabled={isLoading} />
           <div className="space-y-1.5">
             <FormField
               control={form.control}
@@ -113,14 +133,22 @@ export const SignUpCardContent = () => {
             />
           </div>
           <div className="space-y-2">
-            <Button className="w-full font-bold text-white" type="submit">
-              {t("SIGN_UP.SUBMIT_BTN")}
+            <Button
+              disabled={isLoading}
+              className="w-full font-bold text-white"
+              type="submit"
+            >
+              {isLoading ? (
+                <LoadingState loadingText={m("PENDING.LOADING")} />
+              ) : (
+                t("SIGN_UP.SUBMIT_BTN")
+              )}
             </Button>
             <p className="text-xs text-center text-muted-foreground">
-                {t("SIGN_UP.TERMS.FIRST")} {" "}
-                <Link className="font-bold" href={"/"}>
+              {t("SIGN_UP.TERMS.FIRST")}{" "}
+              <Link className="font-bold" href={"/"}>
                 {t("SIGN_UP.TERMS.SECOND")}{" "}
-                </Link>
+              </Link>
             </p>
           </div>
         </form>
