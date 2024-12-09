@@ -1,4 +1,3 @@
-work done till part1 time = 3:13:53
 commands to write when restarted:
 npm run dev
 docker compose up
