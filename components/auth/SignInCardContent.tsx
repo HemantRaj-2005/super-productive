@@ -112,7 +112,7 @@ export const SignInCardContent = () => {
             />
           </div>
           <div className="space-y-2">
-            <Button className="w-full font-bold text-white" type="submit">
+            <Button className="w-full font-bold" type="submit">
               {t("SIGN_IN.SUBMIT_BTN")}
             </Button>
             <p className="text-xs text-center text-muted-foreground">
