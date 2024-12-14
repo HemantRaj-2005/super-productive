@@ -4,21 +4,25 @@ import { db } from "./db";
 import { Adapter } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
-import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import {generateFromEmail}  from "unique-username-generator";
 
 export const authOptions: NextAuthOptions = {
+
   session: {
     strategy: "jwt",
   },
+
   pages: {
     error: "/sign-in",
     signIn: "/sign-in",
   },
+
   adapter: PrismaAdapter(db) as Adapter,
+
   providers: [
+    
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
@@ -34,6 +38,7 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
+
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
@@ -50,10 +55,7 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
-    AppleProvider({
-      clientId: process.env.APPLE_CLIENT_ID!,
-      clientSecret: process.env.APPLE_CLIENT_SECRET!,
-    }),
+
     CredentialsProvider({
         name: "credentials",
         credentials: {
